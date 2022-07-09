@@ -6,6 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlineCopy, AiFillCopy } from "react-icons/ai";
 
 const App = () => {
+  //css code style for results object
   const resultsCssCodeStyle = {
     propertyColor: "#fcfef0",
     value: "#ad80fe",
@@ -25,7 +26,7 @@ const App = () => {
       <Container className="mb-4">
         <Row>
           {/* Box Shadow Options */}
-          <Col md={4}>
+          <Col lg={4}>
             <Card>
               <Card.Header>
                 <b>Box Shadow Options</b>
@@ -91,7 +92,6 @@ const App = () => {
                         type="color"
                         id="shadow-color"
                         name="shadow-color"
-                        defaultValue="#a33"
                         title="Shadow Color"
                       />
                     </div>
@@ -126,7 +126,7 @@ const App = () => {
             </Card>
           </Col>
           {/* Results */}
-          <Col md={8}>
+          <Col lg={8}>
             {/* Box */}
             <Row style={{ height: 470 }}>
               <div className="d-flex justify-content-center align-items-center">
@@ -134,7 +134,7 @@ const App = () => {
                   style={{
                     width: 400,
                     height: 300,
-                    backgroundColor: "#a33",
+                    backgroundColor: "#0d6efd",
                   }}
                   className="box"
                 ></div>
@@ -143,14 +143,11 @@ const App = () => {
             {/* CSS Style */}
             <Row className="p-4">
               <div
-                className="w-100"
+                className="w-100 p-3 pt-5"
                 style={{
                   width: "100%",
-                  height: 140,
                   backgroundColor: "#272823",
-                  fontSize: 20,
-                  padding: 18,
-                  paddingTop: 28,
+                  fontSize: 18,
                   borderRadius: ".5rem",
                   fontFamily: `'Fira Code', monospace`,
                   position: "relative",
