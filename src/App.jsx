@@ -33,8 +33,8 @@ const App = () => {
     color: "#000000",
     isInsetOn: false,
   });
-  //state for copying the css style
 
+  //state for copying the css style
   const [cssToCopy, setCssToCopy] = useState("");
   const [copied, copy, setCopied] = useCopy(cssToCopy);
 
@@ -79,6 +79,8 @@ const App = () => {
     isInsetOn,
   } = boxShadowOptions;
 
+  //Effect after every state change
+  //change the css text style
   useEffect(() => {
     setCssToCopy(removeBR(resultsStyleRef.current.innerHTML));
   }, [boxShadowOptions]);
