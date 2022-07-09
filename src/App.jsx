@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -6,6 +6,17 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlineCopy, AiFillCopy } from "react-icons/ai";
 
 const App = () => {
+  //box shadow options state
+  const [boxShadowOptions, setBoxShadowOptions] = useState({
+    offsetX: 10,
+    offsetY: 10,
+    blurRadius: 10,
+    spreadRadius: 10,
+    shadowColorOpacity: 0,
+    color: `rgba(0,0,0,0)`,
+    isInsetOn: false,
+  });
+
   //css code style for results object
   const resultsCssCodeStyle = {
     propertyColor: "#fcfef0",
@@ -42,7 +53,11 @@ const App = () => {
                         10px
                       </span>
                     </Form.Label>
-                    <Form.Range className="w-100" />
+                    <Form.Range
+                      onChange={(e) => null}
+                      value={boxShadowOptions.offsetX}
+                      className="w-100"
+                    />
                   </Form.Group>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -54,7 +69,11 @@ const App = () => {
                         10px
                       </span>
                     </Form.Label>
-                    <Form.Range className="w-100" />
+                    <Form.Range
+                      onChange={(e) => null}
+                      value={boxShadowOptions.offsetY}
+                      className="w-100"
+                    />
                   </Form.Group>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -66,7 +85,11 @@ const App = () => {
                         10px
                       </span>
                     </Form.Label>
-                    <Form.Range className="w-100" />
+                    <Form.Range
+                      onChange={(e) => null}
+                      value={boxShadowOptions.blurRadius}
+                      className="w-100"
+                    />
                   </Form.Group>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -78,7 +101,11 @@ const App = () => {
                         10px
                       </span>
                     </Form.Label>
-                    <Form.Range className="w-100" />
+                    <Form.Range
+                      onChange={(e) => null}
+                      value={boxShadowOptions.spreadRadius}
+                      className="w-100"
+                    />
                   </Form.Group>
                 </ListGroup.Item>
 
@@ -88,11 +115,13 @@ const App = () => {
                     <div className="d-flex justify-content-between">
                       <Form.Label>Shadow Color</Form.Label>
                       <Form.Control
+                        onChange={(e) => null}
                         style={{ width: 100 }}
                         type="color"
                         id="shadow-color"
                         name="shadow-color"
                         title="Shadow Color"
+                        value={boxShadowOptions.color}
                       />
                     </div>
                   </Form.Group>
@@ -107,7 +136,11 @@ const App = () => {
                         10px
                       </span>
                     </Form.Label>
-                    <Form.Range className="w-100" />
+                    <Form.Range
+                      onChange={(e) => null}
+                      value={boxShadowOptions.shadowColorOpacity}
+                      className="w-100"
+                    />
                   </Form.Group>
                 </ListGroup.Item>
 
@@ -118,7 +151,12 @@ const App = () => {
                       <Form.Label>
                         <b>Inset</b>
                       </Form.Label>
-                      <Form.Check type="switch" id="custom-switch" />
+                      <Form.Check
+                        onChange={(e) => null}
+                        checked={boxShadowOptions.isInsetOn}
+                        type="switch"
+                        id="custom-switch"
+                      />
                     </div>
                   </Form.Group>
                 </ListGroup.Item>
@@ -140,7 +178,7 @@ const App = () => {
                 ></div>
               </div>
             </Row>
-            {/* CSS Style */}
+            {/* Results  CSS Style */}
             <Row className="p-4">
               <div
                 className="w-100 p-3 pt-5"
