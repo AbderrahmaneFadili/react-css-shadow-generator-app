@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlineCopy, AiFillCopy } from "react-icons/ai";
+import useCopy from "use-copy";
 
 //hex to rgb
 const hexToRgb = (hex) => {
@@ -15,6 +16,10 @@ const hexToRgb = (hex) => {
         blue: parseInt(result[3], 16),
       }
     : null;
+};
+//remove <br/>
+const removeBR = (text) => {
+  return text.replace(/<br>/g, "\n");
 };
 
 const App = () => {
@@ -28,13 +33,22 @@ const App = () => {
     color: "#000000",
     isInsetOn: false,
   });
+  //state for copying the css style
 
-  //css code style for results object
-  const resultsCssCodeStyle = {
-    propertyColor: "#fcfef0",
-    value: "#ad80fe",
-    measure: "#e8276b",
-    colorValue: "#fcfef0",
+  const [cssToCopy, setCssToCopy] = useState("");
+  const [copied, copy, setCopied] = useCopy(cssToCopy);
+
+  const resultsStyleRef = useRef(null);
+
+  //handle copy css
+  const handleCopyCSS = () => {
+    //copy to clipboard
+    copy();
+
+    //delay 3s then set copied to false
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
   };
 
   //handle shadow color opacity
@@ -46,6 +60,7 @@ const App = () => {
     }));
   };
 
+  //toggle inset
   const toggleInset = (event) => {
     setBoxShadowOptions((pre) => ({
       ...pre,
@@ -53,6 +68,7 @@ const App = () => {
     }));
   };
 
+  //get the state data
   const {
     offsetX,
     offsetY,
@@ -62,6 +78,10 @@ const App = () => {
     color,
     isInsetOn,
   } = boxShadowOptions;
+
+  useEffect(() => {
+    setCssToCopy(removeBR(resultsStyleRef.current.innerHTML));
+  }, [boxShadowOptions]);
 
   return (
     <>
@@ -240,10 +260,12 @@ const App = () => {
             {/* Results  CSS Style */}
             <Row className="p-4">
               <div
+                id="results-css-style"
                 className="w-100 p-3 pt-5"
                 style={{
                   width: "100%",
                   backgroundColor: "#272823",
+                  color: "#fcfef0",
                   fontSize: 18,
                   borderRadius: ".5rem",
                   fontFamily: `'Fira Code', monospace`,
@@ -252,253 +274,59 @@ const App = () => {
               >
                 {/* copy (save to clipboard) */}
                 <>
-                  <AiOutlineCopy
-                    size={26}
-                    color="#fcfef0"
-                    style={{
-                      cursor: "pointer",
-                      position: "absolute",
-                      top: "1rem",
-                      right: "1rem",
-                    }}
-                  />
+                  {copied ? (
+                    <AiFillCopy
+                      title="CSS copied"
+                      size={26}
+                      color="#fcfef0"
+                      style={{
+                        zIndex: 111,
+                        cursor: "pointer",
+                        position: "absolute",
+                        top: "1rem",
+                        right: "1rem",
+                      }}
+                    />
+                  ) : (
+                    <AiOutlineCopy
+                      onClick={handleCopyCSS}
+                      title="Copy CSS"
+                      size={26}
+                      color="#fcfef0"
+                      style={{
+                        zIndex: 111,
+                        cursor: "pointer",
+                        position: "absolute",
+                        top: "1rem",
+                        right: "1rem",
+                      }}
+                    />
+                  )}
                 </>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.propertyColor,
-                  }}
-                >
-                  box-shadow:
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetX}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetY}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {blurRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {spreadRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
-                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                <div ref={resultsStyleRef}>
+                  box-shadow: {offsetX}
+                  px {offsetY}px {blurRadius}
+                  px {spreadRadius}
+                  px rgba({hexToRgb(color).red},{hexToRgb(color).green},
                   {hexToRgb(color).blue},{shadowColorOpacity})
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
                   {isInsetOn && " inset "};
-                </span>
-                <br />
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.propertyColor,
-                  }}
-                >
-                  -webkit-box-shadow:
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetX}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetY}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {blurRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {spreadRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
-                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                  <br />
+                  -webkit-box-shadow: {offsetX}
+                  px {offsetY}
+                  px {blurRadius}
+                  px {spreadRadius}
+                  px rgba({hexToRgb(color).red},{hexToRgb(color).green},
                   {hexToRgb(color).blue},{shadowColorOpacity})
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
                   {isInsetOn && " inset "};
-                </span>
-                <br />
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.propertyColor,
-                  }}
-                >
-                  -moz-box-shadow:
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetX}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {offsetY}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {blurRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.value,
-                  }}
-                >
-                  {spreadRadius}
-                </span>
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.measure,
-                  }}
-                >
-                  px
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
-                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                  <br />
+                  -moz-box-shadow: {offsetX}
+                  px {offsetY}
+                  px {blurRadius}
+                  px {spreadRadius}
+                  px rgba({hexToRgb(color).red},{hexToRgb(color).green},
                   {hexToRgb(color).blue},{shadowColorOpacity})
-                </span>{" "}
-                <span
-                  style={{
-                    color: resultsCssCodeStyle.colorValue,
-                  }}
-                >
                   {isInsetOn && " inset "};
-                </span>
+                </div>
               </div>
             </Row>
           </Col>
