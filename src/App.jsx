@@ -49,11 +49,20 @@ const App = () => {
   const toggleInset = (event) => {
     setBoxShadowOptions((pre) => ({
       ...pre,
-      isInsetOn: !boxShadowOptions.isInsetOn,
+      isInsetOn: !isInsetOn,
     }));
   };
 
-  console.log(boxShadowOptions);
+  const {
+    offsetX,
+    offsetY,
+    blurRadius,
+    spreadRadius,
+    shadowColorOpacity,
+    color,
+    isInsetOn,
+  } = boxShadowOptions;
+
   return (
     <>
       <Container className="my-5">
@@ -80,7 +89,7 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Horizontal Shadow Length</span>
                       <span className="font-weight-bold text-primary">
-                        {boxShadowOptions.offsetX}px
+                        {offsetX}px
                       </span>
                     </Form.Label>
                     <Form.Range
@@ -88,7 +97,7 @@ const App = () => {
                       min={-100}
                       max={100}
                       onChange={handleChange}
-                      value={boxShadowOptions.offsetX}
+                      value={offsetX}
                       className="w-100"
                     />
                   </Form.Group>
@@ -99,7 +108,7 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Vertical Shadow Length</span>
                       <span className="font-weight-bold text-primary">
-                        {boxShadowOptions.offsetY}px
+                        {offsetY}px
                       </span>
                     </Form.Label>
                     <Form.Range
@@ -107,7 +116,7 @@ const App = () => {
                       max={100}
                       name="offsetY"
                       onChange={handleChange}
-                      value={boxShadowOptions.offsetY}
+                      value={offsetY}
                       className="w-100"
                     />
                   </Form.Group>
@@ -118,7 +127,7 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Blur Radius</span>
                       <span className="font-weight-bold text-primary">
-                        {boxShadowOptions.blurRadius}px
+                        {blurRadius}px
                       </span>
                     </Form.Label>
                     <Form.Range
@@ -126,7 +135,7 @@ const App = () => {
                       max={300}
                       name="blurRadius"
                       onChange={handleChange}
-                      value={boxShadowOptions.blurRadius}
+                      value={blurRadius}
                       className="w-100"
                     />
                   </Form.Group>
@@ -137,7 +146,7 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Spread Radius</span>
                       <span className="font-weight-bold text-primary">
-                        {boxShadowOptions.spreadRadius}px
+                        {spreadRadius}px
                       </span>
                     </Form.Label>
                     <Form.Range
@@ -145,7 +154,7 @@ const App = () => {
                       max={200}
                       name="spreadRadius"
                       onChange={handleChange}
-                      value={boxShadowOptions.spreadRadius}
+                      value={spreadRadius}
                       className="w-100"
                     />
                   </Form.Group>
@@ -162,7 +171,7 @@ const App = () => {
                         type="color"
                         name="color"
                         title="Shadow Color"
-                        value={boxShadowOptions.color}
+                        value={color}
                       />
                     </div>
                   </Form.Group>
@@ -174,7 +183,7 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Shadow Color Opacity</span>
                       <span className="font-weight-bold text-primary">
-                        {boxShadowOptions.shadowColorOpacity}
+                        {shadowColorOpacity}
                       </span>
                     </Form.Label>
                     <Form.Range
@@ -183,7 +192,7 @@ const App = () => {
                       step={0.01}
                       name="shadowColorOpacity"
                       onChange={handleChange}
-                      value={boxShadowOptions.shadowColorOpacity}
+                      value={shadowColorOpacity}
                       className="w-100"
                     />
                   </Form.Group>
@@ -198,7 +207,7 @@ const App = () => {
                       </Form.Label>
                       <Form.Check
                         onChange={toggleInset}
-                        checked={boxShadowOptions.isInsetOn}
+                        checked={isInsetOn}
                         type="switch"
                         name="isInsetOn"
                       />
@@ -215,6 +224,11 @@ const App = () => {
               <div className="d-flex justify-content-center align-items-center">
                 <div
                   style={{
+                    boxShadow: `${offsetX}px ${offsetY}px ${blurRadius}px ${spreadRadius}px rgba(${
+                      hexToRgb(color).red
+                    },${hexToRgb(color).green}, ${
+                      hexToRgb(color).blue
+                    },${shadowColorOpacity}) ${isInsetOn ? "inset" : ""}`,
                     width: 400,
                     height: 300,
                     backgroundColor: "#0d6efd",
@@ -261,7 +275,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetX}
                 </span>
                 <span
                   style={{
@@ -275,7 +289,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetY}
                 </span>
                 <span
                   style={{
@@ -289,7 +303,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {blurRadius}
                 </span>
                 <span
                   style={{
@@ -303,7 +317,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {spreadRadius}
                 </span>
                 <span
                   style={{
@@ -317,10 +331,15 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba({hexToRgb(boxShadowOptions.color).red},
-                  {hexToRgb(boxShadowOptions.color).green},
-                  {hexToRgb(boxShadowOptions.color).blue},
-                  {boxShadowOptions.shadowColorOpacity});
+                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                  {hexToRgb(color).blue},{shadowColorOpacity})
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  {isInsetOn && " inset "};
                 </span>
                 <br />
                 <span
@@ -335,7 +354,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetX}
                 </span>
                 <span
                   style={{
@@ -349,7 +368,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetY}
                 </span>
                 <span
                   style={{
@@ -363,7 +382,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {blurRadius}
                 </span>
                 <span
                   style={{
@@ -377,7 +396,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {spreadRadius}
                 </span>
                 <span
                   style={{
@@ -391,10 +410,15 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba({hexToRgb(boxShadowOptions.color).red},
-                  {hexToRgb(boxShadowOptions.color).green},
-                  {hexToRgb(boxShadowOptions.color).blue},
-                  {boxShadowOptions.shadowColorOpacity});
+                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                  {hexToRgb(color).blue},{shadowColorOpacity})
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  {isInsetOn && " inset "};
                 </span>
                 <br />
                 <span
@@ -409,7 +433,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetX}
                 </span>
                 <span
                   style={{
@@ -423,7 +447,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {offsetY}
                 </span>
                 <span
                   style={{
@@ -437,7 +461,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {blurRadius}
                 </span>
                 <span
                   style={{
@@ -451,7 +475,7 @@ const App = () => {
                     color: resultsCssCodeStyle.value,
                   }}
                 >
-                  10
+                  {spreadRadius}
                 </span>
                 <span
                   style={{
@@ -465,10 +489,15 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba({hexToRgb(boxShadowOptions.color).red},
-                  {hexToRgb(boxShadowOptions.color).green},
-                  {hexToRgb(boxShadowOptions.color).blue},
-                  {boxShadowOptions.shadowColorOpacity});
+                  rgba({hexToRgb(color).red},{hexToRgb(color).green},
+                  {hexToRgb(color).blue},{shadowColorOpacity})
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  {isInsetOn && " inset "};
                 </span>
               </div>
             </Row>
