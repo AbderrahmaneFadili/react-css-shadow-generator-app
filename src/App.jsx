@@ -5,6 +5,18 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlineCopy, AiFillCopy } from "react-icons/ai";
 
+//hex to rgb
+const hexToRgb = (hex) => {
+  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        red: parseInt(result[1], 16),
+        green: parseInt(result[2], 16),
+        blue: parseInt(result[3], 16),
+      }
+    : null;
+};
+
 const App = () => {
   //box shadow options state
   const [boxShadowOptions, setBoxShadowOptions] = useState({
@@ -12,8 +24,8 @@ const App = () => {
     offsetY: 10,
     blurRadius: 10,
     spreadRadius: 10,
-    shadowColorOpacity: 0,
-    color: `rgba(0,0,0,0)`,
+    shadowColorOpacity: 0.5,
+    color: "#000000",
     isInsetOn: false,
   });
 
@@ -24,6 +36,24 @@ const App = () => {
     measure: "#e8276b",
     colorValue: "#fcfef0",
   };
+
+  //handle shadow color opacity
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setBoxShadowOptions((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const toggleInset = (event) => {
+    setBoxShadowOptions((pre) => ({
+      ...pre,
+      isInsetOn: !boxShadowOptions.isInsetOn,
+    }));
+  };
+
+  console.log(boxShadowOptions);
   return (
     <>
       <Container className="my-5">
@@ -50,11 +80,14 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Horizontal Shadow Length</span>
                       <span className="font-weight-bold text-primary">
-                        10px
+                        {boxShadowOptions.offsetX}px
                       </span>
                     </Form.Label>
                     <Form.Range
-                      onChange={(e) => null}
+                      name="offsetX"
+                      min={-100}
+                      max={100}
+                      onChange={handleChange}
                       value={boxShadowOptions.offsetX}
                       className="w-100"
                     />
@@ -66,11 +99,14 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Vertical Shadow Length</span>
                       <span className="font-weight-bold text-primary">
-                        10px
+                        {boxShadowOptions.offsetY}px
                       </span>
                     </Form.Label>
                     <Form.Range
-                      onChange={(e) => null}
+                      min={-100}
+                      max={100}
+                      name="offsetY"
+                      onChange={handleChange}
                       value={boxShadowOptions.offsetY}
                       className="w-100"
                     />
@@ -82,11 +118,14 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Blur Radius</span>
                       <span className="font-weight-bold text-primary">
-                        10px
+                        {boxShadowOptions.blurRadius}px
                       </span>
                     </Form.Label>
                     <Form.Range
-                      onChange={(e) => null}
+                      min={0}
+                      max={300}
+                      name="blurRadius"
+                      onChange={handleChange}
                       value={boxShadowOptions.blurRadius}
                       className="w-100"
                     />
@@ -98,11 +137,14 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Spread Radius</span>
                       <span className="font-weight-bold text-primary">
-                        10px
+                        {boxShadowOptions.spreadRadius}px
                       </span>
                     </Form.Label>
                     <Form.Range
-                      onChange={(e) => null}
+                      min={-200}
+                      max={200}
+                      name="spreadRadius"
+                      onChange={handleChange}
                       value={boxShadowOptions.spreadRadius}
                       className="w-100"
                     />
@@ -115,11 +157,10 @@ const App = () => {
                     <div className="d-flex justify-content-between">
                       <Form.Label>Shadow Color</Form.Label>
                       <Form.Control
-                        onChange={(e) => null}
+                        onChange={handleChange}
                         style={{ width: 100 }}
                         type="color"
-                        id="shadow-color"
-                        name="shadow-color"
+                        name="color"
                         title="Shadow Color"
                         value={boxShadowOptions.color}
                       />
@@ -133,11 +174,15 @@ const App = () => {
                     <Form.Label className="d-flex justify-content-between">
                       <span>Shadow Color Opacity</span>
                       <span className="font-weight-bold text-primary">
-                        10px
+                        {boxShadowOptions.shadowColorOpacity}
                       </span>
                     </Form.Label>
                     <Form.Range
-                      onChange={(e) => null}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      name="shadowColorOpacity"
+                      onChange={handleChange}
                       value={boxShadowOptions.shadowColorOpacity}
                       className="w-100"
                     />
@@ -152,10 +197,10 @@ const App = () => {
                         <b>Inset</b>
                       </Form.Label>
                       <Form.Check
-                        onChange={(e) => null}
+                        onChange={toggleInset}
                         checked={boxShadowOptions.isInsetOn}
                         type="switch"
-                        id="custom-switch"
+                        name="isInsetOn"
                       />
                     </div>
                   </Form.Group>
@@ -272,7 +317,10 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba(0,0,0,0.75);
+                  rgba({hexToRgb(boxShadowOptions.color).red},
+                  {hexToRgb(boxShadowOptions.color).green},
+                  {hexToRgb(boxShadowOptions.color).blue},
+                  {boxShadowOptions.shadowColorOpacity});
                 </span>
                 <br />
                 <span
@@ -343,7 +391,10 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba(0,0,0,0.75);
+                  rgba({hexToRgb(boxShadowOptions.color).red},
+                  {hexToRgb(boxShadowOptions.color).green},
+                  {hexToRgb(boxShadowOptions.color).blue},
+                  {boxShadowOptions.shadowColorOpacity});
                 </span>
                 <br />
                 <span
@@ -414,7 +465,10 @@ const App = () => {
                     color: resultsCssCodeStyle.colorValue,
                   }}
                 >
-                  rgba(0,0,0,0.75);
+                  rgba({hexToRgb(boxShadowOptions.color).red},
+                  {hexToRgb(boxShadowOptions.color).green},
+                  {hexToRgb(boxShadowOptions.color).blue},
+                  {boxShadowOptions.shadowColorOpacity});
                 </span>
               </div>
             </Row>
