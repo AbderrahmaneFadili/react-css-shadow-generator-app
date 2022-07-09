@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import { AiOutlineCopy, AiFillCopy } from "react-icons/ai";
 
 const App = () => {
+  const resultsCssCodeStyle = {
+    propertyColor: "#fcfef0",
+    value: "#ad80fe",
+    measure: "#e8276b",
+    colorValue: "#fcfef0",
+  };
   return (
     <>
       <Container className="my-5">
@@ -84,7 +91,7 @@ const App = () => {
                         type="color"
                         id="shadow-color"
                         name="shadow-color"
-                        defaultValue="#000"
+                        defaultValue="#a33"
                         title="Shadow Color"
                       />
                     </div>
@@ -119,7 +126,264 @@ const App = () => {
             </Card>
           </Col>
           {/* Results */}
-          <Col md={8}>Results</Col>
+          <Col md={8}>
+            {/* Box */}
+            <Row style={{ height: 470 }}>
+              <div className="d-flex justify-content-center align-items-center">
+                <div
+                  style={{
+                    width: 400,
+                    height: 300,
+                    backgroundColor: "#a33",
+                  }}
+                  className="box"
+                ></div>
+              </div>
+            </Row>
+            {/* CSS Style */}
+            <Row className="p-4">
+              <div
+                className="w-100"
+                style={{
+                  width: "100%",
+                  height: 140,
+                  backgroundColor: "#272823",
+                  fontSize: 20,
+                  padding: 18,
+                  paddingTop: 28,
+                  borderRadius: ".5rem",
+                  fontFamily: `'Fira Code', monospace`,
+                  position: "relative",
+                }}
+              >
+                {/* copy (save to clipboard) */}
+                <>
+                  <AiOutlineCopy
+                    size={26}
+                    color="#fcfef0"
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: "1rem",
+                      right: "1rem",
+                    }}
+                  />
+                </>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.propertyColor,
+                  }}
+                >
+                  box-shadow:
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  rgba(0,0,0,0.75);
+                </span>
+                <br />
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.propertyColor,
+                  }}
+                >
+                  -webkit-box-shadow:
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  rgba(0,0,0,0.75);
+                </span>
+                <br />
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.propertyColor,
+                  }}
+                >
+                  -moz-box-shadow:
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.value,
+                  }}
+                >
+                  10
+                </span>
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.measure,
+                  }}
+                >
+                  px
+                </span>{" "}
+                <span
+                  style={{
+                    color: resultsCssCodeStyle.colorValue,
+                  }}
+                >
+                  rgba(0,0,0,0.75);
+                </span>
+              </div>
+            </Row>
+          </Col>
         </Row>
       </Container>
     </>
